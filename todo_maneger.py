@@ -21,3 +21,11 @@ class TaskManager:
         except (json.JSONDecodeError, FileNotFoundError) as e:
             self.tasks = []
             print(f"⚠️ Помилка читання файлу: {e}")
+
+    def save_tasks(self):
+        try:
+            with open(self.filename, "w", encoding="utf-8") as file:
+                json.dump(self.tasks, file, indent=4, ensure_ascii=False)
+            print(f"💾 Збережено {len(self.tasks)} задач")
+        except Exception as e:
+            print(f"⚠️ Помилка збереження: {e}")

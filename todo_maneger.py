@@ -3,11 +3,11 @@ import datetime
 import os
 
 
-class TaskManeger:
-    def __init__(self, path_file, to_do_list):
-        self.path_file = path_file
-        self.to_do_list = to_do_list
-        self.loading_task()
+class TaskManager:
+    def __init__(self, filename="tasks.json"):
+        self.filename = filename
+        self.tasks = []
+        self.load_tasks()
 
-    def loading_task(self):
+    def load_tasks(self):
         pass

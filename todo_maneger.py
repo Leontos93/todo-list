@@ -14,30 +14,30 @@ class TaskManager:
             if os.path.exists(self.filename):
                 with open(self.filename, "r", encoding="utf-8") as file:
                     self.tasks = json.load(file)
-                    print(f"✅ Завантажено {len(self.tasks)} задач")
+                    print(f"✅ Loaded {len(self.tasks)} tasks")
             else:
                 self.tasks = []
-                print("📝 Створено новий список задач")
+                print("📝 Created new task list")
         except (json.JSONDecodeError, FileNotFoundError) as e:
             self.tasks = []
-            print(f"⚠️ Помилка читання файлу: {e}")
+            print(f"⚠️ File reading error: {e}")
 
     def save_tasks(self):
         try:
             with open(self.filename, "w", encoding="utf-8") as file:
                 json.dump(self.tasks, file, indent=4, ensure_ascii=False)
-            print(f"💾 Збережено {len(self.tasks)} задач")
+            print(f"💾 Saved {len(self.tasks)} tasks")
         except Exception as e:
-            print(f"⚠️ Помилка збереження: {e}")
+            print(f"⚠️ Saving error: {e}")
 
     def add_task(self):
         if self.tasks:
             id = max(task["id"] for task in self.tasks) + 1
         else:
             id = 1
-        text = input("Введіть текст задачі: ")
+        text = input("Enter task text: ")
         if not text:
-            print("⚠️ Назва задачі не може бути порожньою")
+            print("⚠️ Task name cannot be empty")
             return
         created_at = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         task_info = {
@@ -48,58 +48,58 @@ class TaskManager:
         }
         self.tasks.append(task_info)
         self.save_tasks()
-        print("✅ Задача додана")
+        print("✅ Task added")
 
     def show_tasks(self):
         if not self.tasks:
-            print("📝 Список задач порожній")
+            print("📝 Task list is empty")
             return
 
         print("\n" + "=" * 60)
-        print("📋 СПИСОК ЗАДАЧ")
+        print("📋 TASK LIST")
         print("=" * 60)
 
         for task in self.tasks:
             status = "✅" if task["completed"] else "⬜"
             print(f"{status} [{task['id']:3}] {task['text']}")
-            print(f"        Створено: {task['created_at']}")
+            print(f"        Created: {task['created_at']}")
             print("-" * 60)
 
         completed = sum(1 for task in self.tasks if task["completed"])
         print(
-            f"\n📊 Всього: {len(self.tasks)} | Виконано: {completed} | Залишилось: {len(self.tasks) - completed}"
+            f"\n📊 Total: {len(self.tasks)} | Completed: {completed} | Remaining: {len(self.tasks) - completed}"
         )
 
     def complete_task(self):
         try:
-            task_id = int(input("Введіть ID задачі для виконання: "))
+            task_id = int(input("Enter task ID to complete: "))
         except ValueError:
-            print("⚠️ ID має бути числом")
+            print("⚠️ ID must be a number")
             return
         for task in self.tasks:
             if task["id"] == task_id:
                 if task["completed"]:
-                    print("ℹ️ Ця задача вже виконана")
+                    print("ℹ️ This task is already completed")
                 else:
                     task["completed"] = True
                     self.save_tasks()
-                    print(f"✅ Задача #{task_id} відмічена як виконана")
+                    print(f"✅ Task #{task_id} marked as completed")
                 return
-        print(f"❌ Задача з ID {task_id} не знайдена")
+        print(f"❌ Task with ID {task_id} not found")
 
     def delete_task(self):
         try:
-            task_id = int(input("Введіть ID задачі для видалення: "))
+            task_id = int(input("Enter task ID to delete: "))
         except ValueError:
-            print("⚠️ ID має бути числом")
+            print("⚠️ ID must be a number")
             return
         for task in self.tasks:
             if task["id"] == task_id:
                 self.tasks.remove(task)
                 self.save_tasks()
-                print(f"🗑️ Задача #{task_id} видалена")
+                print(f"🗑️ Task #{task_id} deleted")
                 return
-        print(f"❌ Задача з ID {task_id} не знайдена")
+        print(f"❌ Task with ID {task_id} not found")
 
 
 def main():
@@ -107,16 +107,16 @@ def main():
 
     while True:
         print("\n" + "=" * 40)
-        print("📋 МЕНЕДЖЕР ЗАДАЧ")
+        print("📋 TASK MANAGER")
         print("=" * 40)
-        print("1. 📄 Показати всі задачі")
-        print("2. ➕ Додати нову задачу")
-        print("3. ✅ Відмітити задачу як виконану")
-        print("4. 🗑️  Видалити задачу")
-        print("0. 🚪 Вихід")
+        print("1. 📄 Show all tasks")
+        print("2. ➕ Add new task")
+        print("3. ✅ Mark task as completed")
+        print("4. 🗑️  Delete task")
+        print("0. 🚪 Exit")
         print("-" * 40)
 
-        choice = input("Виберіть опцію: ")
+        choice = input("Choose option: ")
 
         if choice == "1":
             manager.show_tasks()
@@ -127,12 +127,12 @@ def main():
         elif choice == "4":
             manager.delete_task()
         elif choice == "0":
-            print("👋 До побачення!")
+            print("👋 Goodbye!")
             break
         else:
-            print("❌ Невірний вибір. Спробуйте ще раз.")
+            print("❌ Invalid choice. Try again.")
 
-        input("\nНатисніть Enter для продовження...")
+        input("\nPress Enter to continue...")
 
 
 if __name__ == "__main__":

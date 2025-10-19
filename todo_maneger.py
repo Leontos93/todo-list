@@ -69,3 +69,20 @@ class TaskManager:
         print(
             f"\n📊 Всього: {len(self.tasks)} | Виконано: {completed} | Залишилось: {len(self.tasks) - completed}"
         )
+
+    def complete_task(self):
+        try:
+            task_id = int(input("Введіть ID задачі для виконання: "))
+        except ValueError:
+            print("⚠️ ID має бути числом")
+            return
+        for task in self.tasks:
+            if task["id"] == task_id:
+                if task["completed"]:
+                    print("ℹ️ Ця задача вже виконана")
+                else:
+                    task["completed"] = True
+                    self.save_tasks()
+                    print(f"✅ Задача #{task_id} відмічена як виконана")
+                return
+        print(f"❌ Задача з ID {task_id} не знайдена")

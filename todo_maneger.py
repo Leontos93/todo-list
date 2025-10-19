@@ -29,3 +29,23 @@ class TaskManager:
             print(f"💾 Збережено {len(self.tasks)} задач")
         except Exception as e:
             print(f"⚠️ Помилка збереження: {e}")
+
+    def add_task(self):
+        if self.tasks:
+            id = max(task["id"] for task in self.tasks) + 1
+        else:
+            id = 1
+        text = input("Введіть текст задачі: ")
+        if not text:
+            print("⚠️ Назва задачі не може бути порожньою")
+            return
+        created_at = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        task_info = {
+            "id": id,
+            "text": text,
+            "completed": False,
+            "created_at": created_at,
+        }
+        self.tasks.append(task_info)
+        self.save_tasks()
+        print("✅ Задача додана")

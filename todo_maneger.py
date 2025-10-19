@@ -100,3 +100,40 @@ class TaskManager:
                 print(f"🗑️ Задача #{task_id} видалена")
                 return
         print(f"❌ Задача з ID {task_id} не знайдена")
+
+
+def main():
+    manager = TaskManager()
+
+    while True:
+        print("\n" + "=" * 40)
+        print("📋 МЕНЕДЖЕР ЗАДАЧ")
+        print("=" * 40)
+        print("1. 📄 Показати всі задачі")
+        print("2. ➕ Додати нову задачу")
+        print("3. ✅ Відмітити задачу як виконану")
+        print("4. 🗑️  Видалити задачу")
+        print("0. 🚪 Вихід")
+        print("-" * 40)
+
+        choice = input("Виберіть опцію: ")
+
+        if choice == "1":
+            manager.show_tasks()
+        elif choice == "2":
+            manager.add_task()
+        elif choice == "3":
+            manager.complete_task()
+        elif choice == "4":
+            manager.delete_task()
+        elif choice == "0":
+            print("👋 До побачення!")
+            break
+        else:
+            print("❌ Невірний вибір. Спробуйте ще раз.")
+
+        input("\nНатисніть Enter для продовження...")
+
+
+if __name__ == "__main__":
+    main()

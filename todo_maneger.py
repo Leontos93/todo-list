@@ -86,3 +86,17 @@ class TaskManager:
                     print(f"✅ Задача #{task_id} відмічена як виконана")
                 return
         print(f"❌ Задача з ID {task_id} не знайдена")
+
+    def delete_task(self):
+        try:
+            task_id = int(input("Введіть ID задачі для видалення: "))
+        except ValueError:
+            print("⚠️ ID має бути числом")
+            return
+        for task in self.tasks:
+            if task["id"] == task_id:
+                self.tasks.remove(task)
+                self.save_tasks()
+                print(f"🗑️ Задача #{task_id} видалена")
+                return
+        print(f"❌ Задача з ID {task_id} не знайдена")

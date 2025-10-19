@@ -49,3 +49,23 @@ class TaskManager:
         self.tasks.append(task_info)
         self.save_tasks()
         print("✅ Задача додана")
+
+    def show_tasks(self):
+        if not self.tasks:
+            print("📝 Список задач порожній")
+            return
+
+        print("\n" + "=" * 60)
+        print("📋 СПИСОК ЗАДАЧ")
+        print("=" * 60)
+
+        for task in self.tasks:
+            status = "✅" if task["completed"] else "⬜"
+            print(f"{status} [{task['id']:3}] {task['text']}")
+            print(f"        Створено: {task['created_at']}")
+            print("-" * 60)
+
+        completed = sum(1 for task in self.tasks if task["completed"])
+        print(
+            f"\n📊 Всього: {len(self.tasks)} | Виконано: {completed} | Залишилось: {len(self.tasks) - completed}"
+        )
